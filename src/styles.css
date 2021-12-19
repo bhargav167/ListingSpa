@@ -1465,7 +1465,7 @@ section {
   height: 70px;
   font-size: 16px;
   font-weight: 600;
-  z-index: 996;
+  z-index: 1;
   transition: all 0.5s;
 }
  
