@@ -1,0 +1,88 @@
+  <!-- ======= Header ======= -->
+  <header id="header" class="">
+    <div class="container d-flex align-items-center">
+      <div class="dropdown">
+        <img role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"  style="height: 10px;" src="../../../assets/img/Toggle.png"/>&nbsp;&nbsp;
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" (click)="Logout()"  style="cursor: pointer;">Logout</a></li>
+          
+        </ul>
+      </div>
+    <h5 (click)="HomeRedirect()" style="font-size: large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; cursor: pointer;" class="logo me-auto">YourList</h5>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> --> 
+      <a href="#appointment" style="color: black; font-weight: bolder;" class=" ">  {{authUser.data.Name}}&nbsp;&nbsp;</a>
+<img style="height: 30px; width: 30px; border-radius: 50%;" class="img-responsive img-circle" src={{authUser.data.ImageUrl}}/>
+    </div>
+  </header><!-- End Header -->
+
+ <!-- ======= Top Bar ======= -->
+ <div id="topbar" class="d-flex align-items-center ">
+  <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
+    <div id="banner" class="align-items-center d-none d-md-flex">
+       
+    </div>
+  
+  </div>
+</div>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <p class="text text-danger mt-3">{{displaydate}}</p>
+      <div  class="col-md-12" style="margin-top: -5px;"> 
+        <b class="" style="font-size: x-large;">
+          <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="dropdown">
+        {{name}}
+        &nbsp;
+          <img style="height: 10px; margin-top: -2px;" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"  src="../../../assets/img/Iconly.png" />
+          &nbsp; 
+          </div>
+         
+         
+        </b>
+       
+      </div>
+     
+      </div>
+  </div>
+ 
+ 
+  <!-- Listing -->
+  <div class="container mt-4">
+    <div class="row">
+   <div class="col-md-12">
+    <ul class="friend-list clearfix">
+      <div class="row">
+        <div *ngFor="let item of list; let i=index" class="col-md-4 mb-4">
+          <li>
+          
+                <div class="friend-img"> 
+                  <h2 class="text text-center mt-4">{{i+1}}</h2>
+                </div>
+               
+                <div class="friend-info">
+                    <h4>{{item.HostName}}</h4>
+                   
+                    <a href={{item.Name}}>{{item.Name | slice:0:45}}</a><br>
+                   
+                </div> 
+          
+            
+           
+        </li> 
+        </div> 
+      </div>
+     
+  </ul>
+   </div>
+ 
+    </div>
+  </div>
+</main>
+
+<footer id="footer" class="d-flex   fixed-bottom">
+  <div class="container d-flex align-items-center justify-content-center   text-center">
+    
+  </div>
+</footer> 
