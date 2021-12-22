@@ -1,15 +1,15 @@
 <div id="myNav" class="overlay">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <div class="overlay-content">
-    <a style="cursor: pointer;" href="#">Account</a>
-    <a style="cursor: pointer;"  href="#">Get Help</a>
-    <a style="cursor: pointer;"  href="#">About Us</a>
+    <a style="cursor: pointer;" href="/aboutUs">About Us</a>
+    <a style="cursor: pointer;"  href="/help">Get Help</a>
+    <a style="cursor: pointer;"  href="/contactUs">Contact Us</a>
     <a style="cursor: pointer;"  (click)="Logout()">Log Out</a>
     <br>
     <br>
     <br>
-    <a href="#">Terms and Privacy</a>
-    <a href="#">Privacy</a>
+    <a href="/t&c">Terms and Conditions</a>
+    <a href="/privacypolicy">Privacy</a>
     <br>
     <br>
     <br>
@@ -41,57 +41,27 @@
        
     </div>
     <div class="d-flex align-items-center">
-      <button data-bs-toggle="modal" href="#exampleModalToggle" role="button" class="btn btn-Ulist rounded-pill">Create New List</button>
-    </div>
+        </div>
   </div>
 </div>
-<main>
-  <div class="container">
-    <div class="row">
-      <p class="text text-danger mt-3">{{displaydate}}</p>
-      <h4 class="text text-center">Shared By {{userName}}</h4>
-      <div  class="col-md-12" style="margin-top: -5px;"> 
-        <b class="" style="font-size: x-large;">
-          <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="dropdown">
-        {{name}}
-        &nbsp;
-          <img style="height: 10px; margin-top: -2px;" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"  src="../../../assets/img/Iconly.png" />
-          &nbsp; 
-          </div>
-         
-         
-        </b>
-       
-      </div>
-     
-      </div>
-  </div>
- 
+<main> 
  
   <!-- Listing -->
   <div class="container mt-4">
     <div class="row">
-   <div class="col-md-12">
-   
-    <ul class="friend-list clearfix">
-      <div class="row">
-        <div *ngFor="let item of list; let i=index" class="col-md-4 mb-4">
-          <li>
-          
-                <div class="friend-img"> 
-                  <h2 class="text text-center mt-4">{{i+1}}</h2>
-                </div>
-               
-                <div class="friend-info">
-                    <h4>{{item.HostName}}</h4> 
-                    <a target="_blank" href={{item.Name}}>{{item.Name | slice:0:45}}</a><br> 
-                </div>  
-        </li> 
-        </div> 
-      </div>
-      <br> <br> <br> <br>  
-    </ul>
+   <div class="col-md-12 mb-4"> 
+     <h4 class="" style="font-weight: bolder;">About us</h4>
+  
    </div> 
+   <div class="col-md-8">
+    <p> 
+      At YourList, we build our product with a passion for getting solutions for the everyday problems of building a startup. We are trying for life easy solutions for those who are stuck somewhere to become something.<br><br>
+      
+      We started the project back in May 2021 with three people in a team. We all are from different<br> backgrounds and looking forward to further growth. You are invited to the YourList team from any <br>background, age, or gender to join us and be a part of a better future.<br>
+      <br><br>
+      Keep a check and keep creating your list. 
+     </p>
+  </div>
     </div>
   </div> 
  

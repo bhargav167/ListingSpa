@@ -1,11 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms'; 
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { ListItem } from 'src/app/Model/ListItem';
 import { MasterList } from 'src/app/Model/MasterList';
-import { ListingService } from 'src/app/services/Listing.service';
-import { environment } from 'src/environments/environment'; 
-import { Clipboard } from '@angular/cdk/clipboard';
+import { ListingService } from 'src/app/services/Listing.service'; 
+import { Clipboard } from '@angular/cdk/clipboard'; 
 function isValidHttpUrl(string) {
   let url;
   
@@ -32,6 +31,7 @@ export class TobBarComponent implements OnInit {
   public btnLoader1: boolean;
   public btnLoader2: boolean;
   authUser:any;
+  topText='';
   lists:ListItem[];
   list:ListItem;
   NoListMsg:string
@@ -48,6 +48,7 @@ export class TobBarComponent implements OnInit {
   ListId: number;
   ListHead: string;
   ListDesc: string; 
+  ListLink:string;
   constructor(private fb: FormBuilder, 
     private _listingService: ListingService,private route: Router,private clipboard: Clipboard) {
     if (localStorage.getItem('user') == null)
@@ -85,6 +86,8 @@ export class TobBarComponent implements OnInit {
     })
   } 
   AddJobPost() {
+    if(this.listForm.controls['Name'].value=='')
+    return;
     let isUrl = isValidHttpUrl(this.listForm.controls['Name'].value);
     if (isUrl) {
       const url = new URL('', this.listForm.controls['Name'].value);
@@ -150,12 +153,10 @@ export class TobBarComponent implements OnInit {
         this.listForm.controls['SearchParams'].setValue(url.search); 
         this.listForm.controls['UserId'].setValue(this.authUser.data.Id);
         this.list = Object.assign({}, this.listForm.value);
-      }
-    
-      console.log(this.list)
+      } 
         this.btnLoader1=true;
         this._listingService.UpdateListItem(this.list.Id, this.list).subscribe((data:any)=>{ 
-          this.btnLoader=false; 
+         
           this.listForm.reset(); 
           this.LoadLists(this.authUser.data.Id,this.masterSelectedListId); 
           this.listForm.controls['Id'].setValue(0); 
@@ -169,7 +170,7 @@ export class TobBarComponent implements OnInit {
         })
       } 
  
-    } else {
+    } else { 
       this.listForm.controls['Host'].setValue(this.listForm.controls['Name'].value); 
       this.listForm.controls['Hash'].setValue(this.listForm.controls['Name'].value); 
       this.listForm.controls['HostName'].setValue(this.listForm.controls['Name'].value); 
@@ -179,29 +180,32 @@ export class TobBarComponent implements OnInit {
       this.listForm.controls['UserName'].setValue(this.listForm.controls['Name'].value); 
       this.listForm.controls['SearchParams'].setValue(this.listForm.controls['Name'].value); 
       this.listForm.controls['UserId'].setValue(this.authUser.data.Id);  
-      this.btnLoader=true; 
+      this.btnLoader1=true; 
 
       this.list = Object.assign({}, this.listForm.value); 
        if(this.list.Id==0){
         this._listingService.AddJobPost(this.list).subscribe((data:any)=>{ 
-          this.btnLoader=false; 
+          this.btnLoader1=false; 
           this.listForm.reset(); 
           this.LoadLists(this.authUser.data.Id,this.masterSelectedListId); 
-          this.listForm.controls['Id'].setValue(0);  
+          this.listForm.controls['Id'].setValue(0); 
           this.listForm.controls['MasterListId'].setValue(this.masterSelectedListId);
+          this.btnLoader1=false;
+          this.ModalClose();
+          this.closeAddExpenseModal3.nativeElement.click();
         },error=>{
           console.log(error);
         })
       }else{
         this.btnLoader1=true; 
-        this._listingService.UpdateListItem(this.list.Id, this.list).subscribe((data:any)=>{ 
-        
+        this._listingService.UpdateListItem(this.list.Id, this.list).subscribe((data:any)=>{  
           this.listForm.reset(); 
           this.LoadLists(this.authUser.data.Id,this.masterSelectedListId); 
           this.listForm.controls['Id'].setValue(0); 
-              this.listForm.controls['MasterListId'].setValue(this.masterSelectedListId);
-              this.btnLoader1=false; 
-              this.ModalClose();
+          this.listForm.controls['MasterListId'].setValue(this.masterSelectedListId);
+          this.btnLoader1=false;
+          this.ModalClose();
+          this.closeAddExpenseModal3.nativeElement.click();
         },error=>{
           console.log(error);
         })
@@ -209,25 +213,27 @@ export class TobBarComponent implements OnInit {
  
     }
   }
-  LoadLists(userId:number, id:number){
+  LoadLists(userId:number, id:number){ 
     this._listingService.GetListByMaster(userId,id).subscribe((data:ListItem[])=>{
       this.lists=data;  
       if(this.lists.length==0){
         this.isItemAvalable=false;
-        this.NoListMsg='No item added in this list.';
-      }else{
+        this.NoListMsg='Add items to your list.';
+      } 
+      else{
         this.isItemAvalable=true;
-        this.NoListMsg='';
+        this.NoListMsg=''; 
       }
     })
   }
   LoadMasterList(userId){ 
     this._listingService.GetMasterListByUserId(userId).subscribe((data:MasterList[])=>{
       this.masterList=data; 
+       
       this.masterSelectedList=this.masterList[0].Name; 
       this.masterSelectedListDate=this.masterList[0].DateFormat;
       this.listForm.controls['MasterListId'].setValue(this.masterList[0].Id); 
-      
+     
       this.masterSelectedListId=this.masterList[0].Id;
        this.LoadLists(this.authUser.data.Id,this.masterList[0].Id);
       if(this.authUser.Id==0)
@@ -250,6 +256,7 @@ export class TobBarComponent implements OnInit {
       this.listForm.controls['Id'].setValue(data.Id);
       this.ListHead=data.Host;
       this.ListDesc=data.HostName;
+      this.ListLink=data.Name;
       this.ListId=data.Id;
     })
   }
@@ -275,6 +282,18 @@ export class TobBarComponent implements OnInit {
        this.ModalClose();
        this.btnLoader2=false;
        this.closeAddExpenseModal.nativeElement.click();
+      },error=>{ 
+        if (error.status == 400) {
+          this.LoadMasterList(this.authUser.data.Id);
+          this.ModalClose();
+          this.btnLoader2 = false;
+          this.closeAddExpenseModal.nativeElement.click();
+          this.showAlert = true;
+          this.topText = 'You cannot delete main list';
+          setInterval(() => {
+            this.showAlert = false;
+          }, 2000)
+        }
       })
     } 
   }
@@ -301,8 +320,7 @@ export class TobBarComponent implements OnInit {
         this.listMasterForm.reset(); 
         this.closeAddExpenseModal.nativeElement.click(); 
         this.listMasterForm.controls['Id'].setValue(0);
-        this.listMasterForm.controls['MasterListId'].setValue(data.Id);
-        this.listMasterForm.controls['Name'].setValue(data.Name);
+        this.masterSelectedList=data.Name;
       },error=>{
         console.log(error);
       })
@@ -329,14 +347,16 @@ export class TobBarComponent implements OnInit {
     })
   }
 //Shared Link
-GetSharedLink(){
-  this.sharedLink=`http://listing555-001-site1.ctempurl.com/sharedLink?userId=${this.authUser.data.Id}&masterListId=${this.masterSelectedListId}&names=${this.masterSelectedList}&displayDate=${this.masterSelectedListDate}`
-  this.clipboard.copy(this.sharedLink);
-  this.showAlert=true;
-  setTimeout(() => {
-    this.showAlert=false;
-  }, 2500);
-}
+  GetSharedLink() {
+    this.sharedLink = `http://yourlist.in/sharedLink?userId=${this.authUser.data.Id}&userName=${this.authUser.data.Name}&masterListId=${this.masterSelectedListId}&displayDate=${this.masterSelectedListDate}&names=${this.masterSelectedList}`
+    this.clipboard.copy(this.sharedLink);
+    this.showAlert = true;
+    this.topText = 'Link copied to share!';
+    setTimeout(() => {
+      this.showAlert = false;
+      this.topText = '';
+    }, 2500);
+  }
   //Modal
   ModalClose(){
     this.listForm.controls['Name'].setValue(''); 

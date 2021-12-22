@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://listing555-001-site1.ctempurl.com/api/'
+  api_url: 'http://yourlist.in/api/'
 };
 
 /*

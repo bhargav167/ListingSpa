@@ -1,32 +1,32 @@
 <div id="myNav" class="overlay">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <div class="overlay-content">
-    <a href="#">Account</a>
-    <a href="#">Get Help</a>
-    <a href="#">About Us</a>
-    <a (click)="Logout()">Log Out</a>
+    <a style="cursor: pointer;" href="/aboutUs">About Us</a>
+    <a style="cursor: pointer;"  href="/help">Get Help</a>
+    <a style="cursor: pointer;"  href="/contactUs">Contact Us</a>
+    <a style="cursor: pointer;"  (click)="Logout()">Log Out</a>
     <br>
     <br>
     <br>
-    <a href="#">Terms and Privacy</a>
-    <a href="#">Privacy</a>
+    <a href="/t&c">Terms and Conditions</a>
+    <a href="/privacypolicy">Privacy</a>
     <br>
     <br>
     <br>
     <h3 style="font-weight: bolder; color: #245570;">YOURLIST</h3>
   </div>
 </div>
-<div style="position: relative;" *ngIf="showAlert" class="alert alert-success text text-center" role="alert">
- Share link copied to Clipboard.
-</div>
-
-
+<div *ngIf="showAlert" class="alert alert-success text text-center fixed-top" role="alert">
+ {{topText}}
+</div> 
   <!-- ======= Header ======= -->
   <header id="header" class="">
     <div class="container d-flex align-items-center"> 
-      
-        <img onclick="openNav()" style="height: 10px;" src="../../../assets/img/Toggle.png"/>&nbsp;&nbsp;
+      <span onclick="openNav()" style="cursor: pointer; line-height:2.5rem;"> 
+        <img  style="height: 12px; cursor: pointer;" src="../../../assets/img/Toggle.png"/>&nbsp;&nbsp;
      
+      </span>
+      
       
       <h5 (click)="HomeRedirect()" style="font-size: large; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; cursor: pointer;" class="logo me-auto">YourList</h5>
       <!-- Uncomment below if you prefer to use an image logo -->
@@ -37,7 +37,7 @@
   </header><!-- End Header -->
 
  <!-- ======= Top Bar ======= -->
- <div id="topbar" class="d-flex align-items-center ">
+ <div id="topbar" class="d-flex align-items-center">
   <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
     <div id="banner" class="align-items-center d-none d-md-flex">
        
@@ -54,33 +54,26 @@
       <p class="text text-danger mt-3">{{masterSelectedListDate}}</p>
       <div  class="col-md-12" style="margin-top: -5px;"> 
         <b class="" style="font-size: x-large;">
-          <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="dropdown">
-        {{masterSelectedList}}
-        &nbsp;
-          <img style="height: 10px; margin-top: -2px;" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"  src="../../../assets/img/Iconly.png" />
-          &nbsp;
-          
+          <div style="display: flex; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" > 
+            <div class="dropdown" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"> {{masterSelectedList | slice:0:21}}
+              &nbsp;
+              <img class="img iml-fluid" style="height: 10px; margin-top: -2px;" src="../../../assets/img/Iconly.png" /> 
+            </div> 
+
+            &nbsp; &nbsp;
+            <img id="img" class="img iml-fluid" (click)="GetMasterList()" data-bs-toggle="modal" href="#exampleModalToggle2" role="button"
+              style="height: 35px;" src="../../../assets/img/Edit.png" />
+
+              &nbsp; &nbsp;
+            <img class="img iml-fluid" (click)="GetSharedLink()" role="button" style="height: 35px;" src="../../../assets/img/share.png" />
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li *ngFor="let item of masterList"><a (click)="LoadListItem(item.Id,item.Name)" class="dropdown-item"  style="cursor: pointer;">{{item.Name}}</a></li>
-              
+              <li *ngFor="let item of masterList"><a (click)="LoadListItem(item.Id,item.Name)" class="dropdown-item"
+                  style="cursor: pointer;">{{item.Name | slice:0:21}}</a></li>
+
             </ul>
-            <img  
-            (click)="GetMasterList()"
-            data-bs-toggle="modal" href="#exampleModalToggle2" role="button"
-            style="height: 35px;"
-            src="../../../assets/img/Edit.png"/>
-            
-            &nbsp;
-            <img 
-            (click)="GetSharedLink()" 
-             role="button"
-           
-            style="height: 35px;"
-            src="../../../assets/img/share.png"/>
-            
+
+
           </div>
-         
-         
         </b>
        
       </div>
@@ -90,7 +83,7 @@
 
   <div class="container mt-5">
     <div class="row d-flex justify-content-center">
-      <form  id="postForm" [formGroup]="listForm" (ngSubmit)="AddJobPost()">
+      <form   [formGroup]="listForm" (ngSubmit)="AddJobPost()">
       <div class="d-flex justify-content-center px-4">
         <div class="col-md-2"></div>
         <div class="col-md-6">
@@ -116,14 +109,14 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel">Create Master List</h5>
+        <h5 class="modal-title" id="exampleModalToggleLabel">Create new List</h5>
         <button type="button" #closeAddExpenseModal1 class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form  [formGroup]="listMasterForm" (ngSubmit)="addMasterList()">
       <div class="modal-body"> 
           <div class="mb-3">
             
-            <input formControlName="Name" style="border-radius: 50px; background-color: #eaf1f9;" type="text" class="form-control textbox" placeholder="New Master List" id="recipient-name">
+            <input formControlName="Name" placeholder="" style="border-radius: 50px; background-color: #eaf1f9;" type="text" class="form-control textbox"   id="recipient-name">
           </div> 
       </div>
       <div class="modal-footer">
@@ -147,7 +140,7 @@
       <div class="modal-header">
         <h6 class="modal-title" style="color: #3c729a; font-weight: bolder;" id="exampleModalToggleLabel">Edit list name 
 
-          <p style="color: black;">{{masterSelectedList}}</p>  
+          <p style="color: black;">{{ListDesc | slice:0:25}}</p>  
         </h6>  
         <button style="margin-top: -40px; color: #3c729a;" type="button" #closeAddExpenseModal3 class="btn-close" (click)="ModalClose()"  data-bs-dismiss="modal" aria-label="Close"></button>
         
@@ -162,12 +155,12 @@
                   <li>
                     <a href="#">
                         <div class="friend-img">
-                          <img style="width: 5rem; height: 5rem;" src="../../../assets/img/Group 6.png" alt="" /> 
+                         
                         </div>
                        
                         <div class="friend-info">
-                          <a href=""><h4>{{ListDesc}}</h4></a>
-                            <a>{{ListHead}}</a>
+                          <a href="{{ListLink}}"><h4>{{ListDesc | slice:0:25}}</h4></a>
+                            <a href="{{ListLink}}">{{ListHead | slice:0:25}}</a>
                           
                         </div>
                      
@@ -179,6 +172,9 @@
              
           </ul> 
             <input style="border-radius: 50px; background-color: #eaf1f9;" formControlName="Name" type="text" class="form-control textbox" id="recipient-name">
+            <small 
+            *ngIf="listForm.get('Name').hasError('required') && listForm.get('Name').touched"
+            id="emailHelp" class="form-text text text-danger">This field  requires.</small>
           </div> 
       </div>
       <div class="modal-footer"> 
@@ -188,7 +184,7 @@
               <span *ngIf="!this.btnLoader2" class="btn-text">  Delete this item </span>
             </button>
          
-            <button class="btn btn-add rounded-pill" type="submit" >
+            <button [disabled]="!listForm.valid" class="btn btn-add rounded-pill" type="submit" >
               <span *ngIf="this.btnLoader1"  class="spinner-border spinner-border-sm" role="status"></span>
               <span *ngIf="this.btnLoader1"  class="load-text"> Please wait...</span>
               <span *ngIf="!this.btnLoader1" class="btn-text">  Update </span>
@@ -206,9 +202,8 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title" style="color: #3c729a; font-weight: bolder;" id="exampleModalToggleLabel">Edit List 
-
-          <p style="color: black;">  <b>Edit Master List</b></p>  
+        <h6 class="modal-title" style="color: #3c729a; font-weight: bolder;" id="exampleModalToggleLabel">Edit List
+          <p style="color: black;">  <b>{{masterSelectedList}}</b></p>  
         </h6>  
         <button style="margin-top: -40px; color: #3c729a;" type="button" class="btn-close" #closeAddExpenseModal (click)="CloseMasterModal()"  data-bs-dismiss="modal" aria-label="Close"></button>
         
@@ -218,6 +213,9 @@
       <div class="modal-body"> 
           <div class="mb-3"> 
             <input style="border-radius: 50px; background-color: #eaf1f9;" formControlName="Name" type="text" class="form-control textbox" id="recipient-name">
+            <small 
+            *ngIf="listMasterForm.get('Name').hasError('required') && listMasterForm.get('Name').touched"
+            id="emailHelp" class="form-text text text-danger">This field  requires.</small>
           </div> 
       </div>
       <div class="modal-footer"> 
@@ -227,7 +225,7 @@
               <span *ngIf="!this.btnLoader2" class="btn-text">  Delete this item </span>
             </button>
          
-            <button class="btn btn-add rounded-pill" type="submit" >
+            <button [disabled]="!listMasterForm.valid" class="btn btn-add rounded-pill" type="submit" >
               <span *ngIf="this.btnLoader1"  class="spinner-border spinner-border-sm" role="status"></span>
               <span *ngIf="this.btnLoader1"  class="load-text"> Please wait...</span>
               <span *ngIf="!this.btnLoader1" class="btn-text">  Update </span>
@@ -241,19 +239,19 @@
 </div>
  
   <!-- Listing -->
-  <div class="container mt-4">
+  <div  class="container mt-5">
     <div class="row">
    <div class="col-md-12">
     <ul class="friend-list clearfix">
-      <div *ngIf="isItemAvalable" class="row">
-        <div *ngFor="let item of lists; let i=index" class="col-md-4 mb-4">
+      <div  *ngIf="isItemAvalable" class="row">
+        <div *ngFor="let item of lists; let i=index" class="col-md-4 mb-4 ">
           <li> 
                 <div class="friend-img"> 
                   <h2 class="text text-center mt-4">{{i+1}}</h2> 
                 </div>
                
                 <div class="friend-info">
-                  <a href={{item.Name}} target="_blank"> <h4>{{item.HostName}}</h4></a>
+                  <a href={{item.Name}} target="_blank"> <h4>{{item.HostName | slice:0:25}}</h4></a>
                    
                     <a href={{item.Name}} target="_blank">{{item.Name | slice:0:45}}</a><br>
                     <a  data-bs-toggle="modal" href="#exampleModalToggle1" role="button"
@@ -267,17 +265,19 @@
         </div> 
       </div>
       <div *ngIf="!isItemAvalable" class="row">
-       <p class="text text-center alert alert-warning">{{NoListMsg}}</p> 
-      </div>
+        <p class="text text-center alert alert-warning">{{NoListMsg}}</p> 
+       </div>
+      <br> <br> <br> <br>  
+     
   </ul>
    </div>
  
     </div>
   </div>
-</main>
 
-<footer id="footer" class="d-flex   fixed-bottom">
+  <footer id="footer" class="d-flex fixed-bottom">
     <div class="container d-flex align-items-center justify-content-center   text-center">
       <button data-bs-toggle="modal" href="#exampleModalToggle" role="button" class="btn btn-Ulist rounded-pill">Create New List</button>
     </div>
   </footer> 
+</main>

@@ -12,6 +12,7 @@ export class SharedLinkComponent implements OnInit {
   authUser:any;
   displaydate:string;
   name:string;
+  userName:string;
   constructor(private route: ActivatedRoute,private _listingService: ListingService) {
     if (localStorage.getItem('user') == null)
       window.location.href = '/login'
@@ -22,6 +23,7 @@ export class SharedLinkComponent implements OnInit {
     this.route.queryParamMap.subscribe(params => {
       this.LoadLists(parseInt(params.get('userId')),parseInt(params.get('masterListId')))
       this.name= params.get('names');
+      this.userName=params.get('userName');
     this.displaydate= params.get('displayDate');
     }
      
@@ -31,8 +33,7 @@ export class SharedLinkComponent implements OnInit {
   }
 LoadLists(userId:number, masterListId:number){
     this._listingService.GetListByMaster(userId,masterListId).subscribe((data:ListItem)=>{
-      this.list=data;  
-      console.log(this.list)
+      this.list=data;   
     })
   }
   Logout(){

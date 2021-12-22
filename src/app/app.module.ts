@@ -7,22 +7,25 @@ import {
 } from 'angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './Header/Header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListingService } from './services/Listing.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthLoginComponent } from './Auth/AuthLogin/AuthLogin.component';
 import { TobBarComponent } from './Header/TobBar/TobBar.component';
 import { SharedLinkComponent } from './Shared/SharedLink/SharedLink.component';
+import { AboutUsComponent } from './Info/AboutUs/AboutUs.component';
+import { PrivacyComponent } from './Info/Privacy/Privacy.component';
+import { ContactUsComponent } from './Info/ContactUs/ContactUs.component';
+import { TermsConditionsComponent } from './Info/TermsConditions/TermsConditions.component';
+import { HelpComponent } from './Info/Help/Help.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     AuthLoginComponent,
     TobBarComponent,
-    SharedLinkComponent
+    SharedLinkComponent, AboutUsComponent, PrivacyComponent, ContactUsComponent, TermsConditionsComponent,HelpComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,6 @@ import { SharedLinkComponent } from './Shared/SharedLink/SharedLink.component';
       } as SocialAuthServiceConfig,
     },
   ],
-  bootstrap: [AppComponent,HeaderComponent,AuthLoginComponent,TobBarComponent,SharedLinkComponent]
+  bootstrap: [AppComponent,AuthLoginComponent,TobBarComponent,SharedLinkComponent,AboutUsComponent,PrivacyComponent,ContactUsComponent,TermsConditionsComponent,HelpComponent]
 })
 export class AppModule { }
